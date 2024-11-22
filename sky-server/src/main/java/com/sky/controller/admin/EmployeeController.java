@@ -12,6 +12,7 @@ import com.sky.service.EmployeeService;
 import com.sky.utils.JwtUtil;
 import com.sky.vo.EmployeeLoginVO;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
 import org.springdoc.core.annotations.ParameterObject;
@@ -97,6 +98,27 @@ public class EmployeeController {
         return Result.success(pageResult);
     }
 
+   @PostMapping("/status/{status}")
+   @Operation(summary = "启用禁用员工账号")
+    public Result startOrStop(@PathVariable("status") @Parameter(name = "status") Integer status,@RequestParam("id") @Parameter(name = "id") Long id) {
+        log.info("启用禁用员工账号:{},{}",status,id);
+        employeeService.starOrStop(status,id);
+        return Result.success();
+    }
 
+    @GetMapping ("/{id}")
+    @Operation(summary = "根据id查询员工信息")
+    public Result<Employee> getById(@PathVariable("id") @Parameter(name="id") Long id) {
+        log.info("根据id查询员工信息:{}", id);
+        Employee employee=employeeService.getById(id);
+        return Result.success(employee);
+    }
 
+    @PutMapping
+    @Operation(summary = "编辑员工信息")
+    public Result update(@RequestBody EmployeeDTO employeeDTO) {
+        log.info("编辑员工信息:{}",employeeDTO);
+        employeeService.update(employeeDTO);
+        return Result.success();
+    }
 }
