@@ -7,6 +7,7 @@ import com.sky.result.Result;
 import com.sky.service.DishService;
 import com.sky.vo.DishVO;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,6 +44,29 @@ public class DishController {
     public Result delete(@RequestParam List<Long> ids){
         log.info("菜品批量删除:{}",ids);
         dishService.deleteBatch(ids);
+        return Result.success();
+    }
+
+    @GetMapping("/{id}")
+    @Operation(summary = "根据id查询菜品")
+    public Result<DishVO> getById(@PathVariable Long id){
+        log.info("根据id查询菜品:{}",id);
+        DishVO dishVO=dishService.getByIdWithFlavor(id);
+        return Result.success(dishVO);
+    }
+    @PutMapping
+    @Operation(summary = "修改菜品")
+    public Result update(@RequestBody DishDTO dishDTO) {
+        log.info("修改菜品,{}",dishDTO);
+        dishService.updateWithFlavors(dishDTO);
+        return Result.success();
+    }
+
+    @PostMapping("/status/{status}")
+    @Operation(summary = "起售停售菜品")
+    public Result startOrStop(@PathVariable("status") @Parameter(name = "status") Integer status, @RequestParam("id") @Parameter(name = "id") Long id) {
+        log.info("起售停售菜品:{},{}",status,id);
+        dishService.starOrStop(status,id);
         return Result.success();
     }
 }
