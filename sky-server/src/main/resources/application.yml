@@ -11,6 +11,11 @@ spring:
     multipart:
       max-request-size: 100MB
       max-file-size: 10MB
+  data:
+    redis:
+      host: localhost
+      port: 6379
+      database: 10
 
 
 
@@ -43,11 +48,17 @@ sky:
     admin-ttl: 7200000
     # 设置前端传递过来的令牌名称
     admin-token-name: token
+    user-secret-key: itheima
+    user-ttl: 7200000
+    user-token-name: authentication
   alioss:
     access-key-id: LTAI5t8HVopJbrjW6GnurUPx
     endpoint: https://oss-cn-hangzhou.aliyuncs.com
     access-key-secret: WaC2ELZxYviFnBuJxpQh4pOOJwFmXc
     bucket-name: mark-web-tlias
+  wechat:
+    appid: wx1dc3af50309a9122
+    secret: 9a73e022f0ea11fb6b82d067e9a7f292
 
 knife4j:
   enable: true
@@ -59,7 +70,14 @@ springdoc:
 
   api-docs:
     path: /v3/api-docs
-  packages-to-scan: com.sky.controller  # 替换为你的包路径
+  group-configs:
+    - group: admin
+      packages-to-scan: com.sky.controller.admin
+    - group: user
+      packages-to-scan: com.sky.controller.user
+
+
+
 
 
 

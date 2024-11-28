@@ -3,6 +3,7 @@ package com.sky.config;
 
 import com.sky.interceptor.JwtTokenAdminInterceptor;
 
+import com.sky.interceptor.JwtTokenUserInterceptor;
 import com.sky.json.JacksonObjectMapper;
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.info.Contact;
@@ -50,7 +51,8 @@ public class WebMvcConfiguration implements WebMvcConfigurer {
 
     @Autowired
     private JwtTokenAdminInterceptor jwtTokenAdminInterceptor;
-
+    @Autowired
+    private JwtTokenUserInterceptor jwtTokenUserInterceptor;
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
@@ -58,6 +60,12 @@ public class WebMvcConfiguration implements WebMvcConfigurer {
         registry.addInterceptor(jwtTokenAdminInterceptor)
                 .addPathPatterns("/admin/**")
                 .excludePathPatterns("/admin/employee/login")
+                .excludePathPatterns("/doc.html")
+                .excludePathPatterns("/webjars/**");
+        registry.addInterceptor(jwtTokenUserInterceptor)
+                .addPathPatterns("/user/**")
+                .excludePathPatterns("/user/user/login")
+                .excludePathPatterns("/user/shop/status")
                 .excludePathPatterns("/doc.html")
                 .excludePathPatterns("/webjars/**");
     }
