@@ -59,6 +59,7 @@ sky:
   wechat:
     appid: wx1dc3af50309a9122
     secret: 9a73e022f0ea11fb6b82d067e9a7f292
+    notify-url: http://471fe9d0.r21.cpolar.top/notify/paySuccess
 
 knife4j:
   enable: true
